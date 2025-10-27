@@ -7,5 +7,7 @@ public class FlappyBird {
         System.out.println("Test");
         //Änderung
 
+        System.out.println("Zweite Änderung");
+
     }
 }
