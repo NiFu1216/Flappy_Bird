@@ -70,11 +70,11 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\Flappy_Bird-1.0-SNAPSHOT.jar;%APP_HOME%\lib\javafx-fxml-21-win.jar;%APP_HOME%\lib\javafx-controls-21-win.jar;%APP_HOME%\lib\javafx-graphics-21-win.jar;%APP_HOME%\lib\javafx-base-21-win.jar
+set CLASSPATH=%APP_HOME%\lib\Flappy_Bird-1.0-SNAPSHOT.jar;%APP_HOME%\lib\javafx-fxml-25-win.jar;%APP_HOME%\lib\javafx-controls-25-win.jar;%APP_HOME%\lib\javafx-graphics-25-win.jar;%APP_HOME%\lib\javafx-base-25-win.jar
 
 
 @rem Execute Flappy_Bird
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %FLAPPY_BIRD_OPTS%  -classpath "%CLASSPATH%" me.Main %*
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %FLAPPY_BIRD_OPTS%  -classpath "%CLASSPATH%" me.FlappyBird %*
 
 :end
 @rem End local scope for the variables with windows NT shell

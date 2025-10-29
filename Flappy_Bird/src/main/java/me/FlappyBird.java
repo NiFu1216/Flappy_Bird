@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class FlappyBird extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -20,7 +20,7 @@ public class Main extends Application {
         Paint paint = Color.CYAN;
         Background background = new Background(new BackgroundFill(paint, new CornerRadii(0), new Insets(0)));
         bp.setBackground(background);
-        Scene scene = new Scene(bp, 500, 500);
+        Scene scene = new Scene(bp, 700, 700);
         stage.setTitle("Flappy Bird");
         stage.setScene(scene);
         stage.show();
