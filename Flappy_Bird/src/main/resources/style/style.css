@@ -1,0 +1,22 @@
+.button {
+    -fx-cursor: Hand;
+}
+
+.PauseButton {
+    -fx-min-width: 100px;
+    -fx-min-height: 50px;
+    -fx-font-size: 30px;
+    -fx-font-family: "Comic Sans MS";
+    -fx-padding: 5px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #da6815;
+    -fx-background-insets: 1px;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-text-fill: white;
+}
+
+.DifficultyButton {
+
+}
