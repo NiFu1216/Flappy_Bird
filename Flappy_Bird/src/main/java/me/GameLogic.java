@@ -25,14 +25,19 @@ public class GameLogic {
     private static final double UPDATE_INTERVAL = 1_000_000_000.0 / 60.0;
     private static final int MAX_UPDATES = 5;
     private static final double GRAVITY = 1000.0;
+    private static final int PIPE_IMG_HEIGHT = 500;
     private static int pipeSpeed;
     private static final int FLOOR_HEIGHT = 100;
     private static double pipeCreationDelay;
     private static double accumulator = 0;
     private static final double dt = (1.0 / 60.0);
-    private static final Image bird = new Image("images/Flappy_Bird_img.png");
+    private static final Image bird_img = new Image("images/Flappy_Bird_img.png");
+    private static final Image pipe_img = new Image("images/Pipe.png");
+    private static final Image flipped_pipe_img = new Image("images/Pipe_upside_down.png");
     private static Timeline pipeSpawner;
     private static boolean dead = false;
+    private static String difficulty;
+    private static File highscoreFile;
 
     static Canvas canvas = new Canvas(SceneSelector.getSceneWidth(), SceneSelector.getSceneHeight());
     static GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -105,13 +110,12 @@ public class GameLogic {
 
         // Clear Scene and draw bird
         gc.clearRect(0, 0, SceneSelector.getSceneWidth(), SceneSelector.getSceneHeight());
-        gc.drawImage(bird, xPos, yPos);
+        gc.drawImage(bird_img, xPos, yPos);
 
         // Draw pipes
         for (Pipe p : Pipe.getPipes()) {
-            gc.setFill(Color.GREEN);
-            gc.fillRect(p.getXPos(), 0, Pipe.getPipeWidth(), p.getHeight());
-            gc.fillRect(p.getXPos(), p.getHeight() + Pipe.getPipeGap(), Pipe.getPipeWidth(), SceneSelector.getSceneHeight() - p.getHeight() - Pipe.getPipeGap() - FLOOR_HEIGHT);
+            gc.drawImage(flipped_pipe_img, p.getXPos(), p.getHeight() - PIPE_IMG_HEIGHT);
+            gc.drawImage(pipe_img, p.getXPos(), p.getHeight() + Pipe.getPipeGap());
         }
     }
 
@@ -188,6 +192,7 @@ public class GameLogic {
                 pipeCreationDelay = 2.8;
                 Pipe.setLowestGap(450);
                 Pipe.setHighestGap(250);
+                GameLogic.difficulty = difficulty;
                 break;
             case "medium":
                 Pipe.setPipeGap(170);
@@ -195,6 +200,7 @@ public class GameLogic {
                 pipeCreationDelay = 2.0;
                 Pipe.setLowestGap(500);
                 Pipe.setHighestGap(200);
+                GameLogic.difficulty = difficulty;
                 break;
             case "hard":
                 Pipe.setPipeGap(140);
@@ -202,14 +208,31 @@ public class GameLogic {
                 pipeCreationDelay = 1.7;
                 Pipe.setLowestGap(530);
                 Pipe.setHighestGap(230);
+                GameLogic.difficulty = difficulty;
                 break;
         }
     }
 
+    public static File getHighscoreFile() {
+
+        switch (difficulty) {
+            case "easy":
+                highscoreFile = new File("highscores/highscore_easy.txt");
+                break;
+            case "medium":
+                highscoreFile = new File("highscores/highscore_medium.txt");
+                break;
+            case "hard":
+                highscoreFile = new File("highscores/highscore_hard.txt");
+                break;
+        }
+
+        return highscoreFile;
+    }
+
     public static void saveHighscore() throws IOException {
 
-        File highscoreFile = new File("highscore/highscore.txt");
-        FileOutputStream fos = new FileOutputStream(highscoreFile);
+        FileOutputStream fos = new FileOutputStream(getHighscoreFile());
 
         fos.write(String.valueOf(getScore()).getBytes());
         fos.close();
@@ -217,19 +240,18 @@ public class GameLogic {
 
     public static int getHighscoreValue() throws IOException {
 
-        File highscoreFile = new File("highscore/highscore.txt");
         FileOutputStream fos;
-        highscoreFile.getParentFile().mkdirs();
+        getHighscoreFile().getParentFile().mkdirs();
         Scanner scan;
 
-        if (!highscoreFile.exists()) {
-            highscoreFile.createNewFile();
-            fos = new FileOutputStream(highscoreFile, false);
+        if (!getHighscoreFile().exists()) {
+            getHighscoreFile().createNewFile();
+            fos = new FileOutputStream(getHighscoreFile(), false);
             fos.write(String.valueOf(0).getBytes());
             fos.close();
             return 0;
         } else {
-            scan = new Scanner(highscoreFile);
+            scan = new Scanner(getHighscoreFile());
             if (scan.hasNextInt()) {
                 return scan.nextInt();
             } else {
