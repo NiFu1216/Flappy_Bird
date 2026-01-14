@@ -23,8 +23,6 @@ public class Sound {
         try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(sounds[i]);
             clip = AudioSystem.getClip();
-//            FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-//            control.setValue(0.1f);
             clip.open(ais);
             FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             control.setValue(-20f);
