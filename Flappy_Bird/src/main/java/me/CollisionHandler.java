@@ -6,6 +6,8 @@ import java.io.IOException;
 
 public class CollisionHandler {
 
+    private static final Sound sound = new Sound();
+
     public static void checkCollision() throws IOException {
         Rectangle[] rects = new Rectangle[(Pipe.getPipes().length * 2)];
         for (int i = 0; i < Pipe.getPipes().length; i++) {
@@ -14,10 +16,14 @@ public class CollisionHandler {
         }
         for (Rectangle rect : rects) {
             if (rect.intersects(GameLogic.getXPos(), GameLogic.getYPos(), GameLogic.getBirdWidth(), GameLogic.getBirdHeight())) {
+                sound.setFile(1);
+                sound.play();
                 GameLogic.gameOver();
             }
         }
         if (GameLogic.getYPos() + GameLogic.getBirdHeight() >= SceneSelector.getSceneHeight() - GameLogic.getFloorHeight()) {
+            sound.setFile(1);
+            sound.play();
             GameLogic.gameOver();
         }
     }

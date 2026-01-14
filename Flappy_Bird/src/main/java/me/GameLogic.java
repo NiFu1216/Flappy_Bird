@@ -38,6 +38,7 @@ public class GameLogic {
     private static boolean dead = false;
     private static String difficulty;
     private static File highscoreFile;
+    private static final Sound sound = new Sound();
 
     static Canvas canvas = new Canvas(SceneSelector.getSceneWidth(), SceneSelector.getSceneHeight());
     static GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -95,6 +96,8 @@ public class GameLogic {
             if (((p.getXPos() + Pipe.getPipeWidth()) < xPos) && !p.getScoreAwarded()) {
                 p.setScoreAwarded(true);
                 score++;
+                sound.setFile(2);
+                sound.play();
                 SceneSelector.getScore().setText("Score: " + score);
             }
         }

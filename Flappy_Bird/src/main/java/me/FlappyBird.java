@@ -15,6 +15,9 @@ public class FlappyBird extends Application {
     // CSS stylesheet
     String css = this.getClass().getResource("/style/style.css").toExternalForm();
 
+    // Background music
+    Sound sound = new Sound();
+
     @Override
     public void start(Stage stage) throws Exception {
 
@@ -26,6 +29,9 @@ public class FlappyBird extends Application {
         SceneSelector.selectStartingScene(stage);
 
         stage.show();
+        sound.setFile(3);
+        sound.play();
+        sound.loop();
     }
 
     public String getStyleSheet() {
