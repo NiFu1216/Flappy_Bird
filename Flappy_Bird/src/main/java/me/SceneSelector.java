@@ -57,7 +57,7 @@ public class SceneSelector {
         startingScene.getStylesheets().add(FlappyBird.getInstance().getStyleSheet());
         stage.setScene(startingScene);
 
-        // Adding Start & Quit Button
+        // Adding and configuring Start & Quit Button
         Button start = new Button("");
         Button quit = new Button("");
         HBox hbox = new HBox(200);
@@ -145,10 +145,6 @@ public class SceneSelector {
             }
         });
 
-        easyButton.getStyleClass().add("DifficultyButton");
-        mediumButton.getStyleClass().add("DifficultyButton");
-        hardButton.getStyleClass().add("DifficultyButton");
-
         bp.setCenter(vBoxDifficultyButtons);
     }
 
@@ -165,6 +161,7 @@ public class SceneSelector {
 
         // Creating the Scene
         gameScene = new Scene(bp, SCENE_WIDTH, SCENE_HEIGHT);
+        gameScene.setOnKeyPressed(new KeyListener());
 
         // Setting the icon of the window in the top left
         stage.getIcons().add(icon);
@@ -173,7 +170,7 @@ public class SceneSelector {
         bp.setBottom(groundImg);
         stage.setScene(gameScene);
 
-        // Score
+        // Setting the score & highscore
         score = new Text("");
         score.setStroke(Color.WHITE);
         score.setFill(Color.WHITE);
@@ -187,7 +184,7 @@ public class SceneSelector {
         vBoxScores.setAlignment(Pos.TOP_RIGHT);
         vBoxScores.getChildren().addAll(highscore, score);
 
-        // Pause text & buttons
+        // Pause text & pause buttons
         pauseText = new Text("Press ESC again to resume");
         pauseText.setFill(Color.WHITE);
         pauseText.setFont(Font.font("Comic Sans MS", 40));
@@ -223,12 +220,11 @@ public class SceneSelector {
         vBoxPause.setSpacing(30);
         vBoxPause.getChildren().add(gameOverText);
 
-        // Adding the KeyListenerClass
-        gameScene.setOnKeyPressed(new KeyListener());
-
         // Adding the stylesheet
         gameScene.getStylesheets().add(FlappyBird.getInstance().getStyleSheet());
     }
+
+    // <--- Getter and Setter Methods --->
 
     public static VBox getPauseVBox() {
         return vBoxPause;

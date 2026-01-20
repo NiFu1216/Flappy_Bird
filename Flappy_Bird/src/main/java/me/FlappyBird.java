@@ -6,9 +6,6 @@ import javafx.stage.Stage;
 
 public class FlappyBird extends Application {
 
-    // Icon img
-    private static final Image icon = new Image("images/Flappy_Bird_img.png");
-
     // Creating an instance for the getInstance() method to easily access the stylesheet without having to create an instance in SceneSelector
     private static final FlappyBird flappyBird = new FlappyBird();
 
@@ -28,6 +25,7 @@ public class FlappyBird extends Application {
         stage.setTitle("Flappy Bird");
         SceneSelector.selectStartingScene(stage);
 
+        // Show the stage and play the background music
         stage.show();
         sound.setFile(3);
         sound.play();

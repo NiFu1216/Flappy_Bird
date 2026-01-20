@@ -40,9 +40,11 @@ public class GameLogic {
     private static File highscoreFile;
     private static final Sound sound = new Sound();
 
+    // Create a canvas we can draw on
     static Canvas canvas = new Canvas(SceneSelector.getSceneWidth(), SceneSelector.getSceneHeight());
     static GraphicsContext gc = canvas.getGraphicsContext2D();
 
+    // Create an AnimationTimer that updates the game each frame
     static AnimationTimer at = new AnimationTimer() {
         @Override
         public void handle(long now) {
@@ -59,9 +61,9 @@ public class GameLogic {
             // Updating accumulator
             accumulator += delta;
 
-            // Run physics updates in fixed-size steps
             int updates = 0;
 
+            // Run physics updates in fixed-size steps, UPDATE_INTERVAL equals 60 FPS
             while (accumulator >= UPDATE_INTERVAL && updates < MAX_UPDATES) {
                 try {
                     update();
@@ -90,7 +92,7 @@ public class GameLogic {
         // Update birds y position
         yPos += yVelocity * dt;
 
-        // Update pipes xPos & score
+        // Update pipes, xPos & score
         for (Pipe p : Pipe.getPipes()) {
             p.setXPos((p.getXPos() - pipeSpeed * dt));
             if (((p.getXPos() + Pipe.getPipeWidth()) < xPos) && !p.getScoreAwarded()) {
@@ -102,6 +104,7 @@ public class GameLogic {
             }
         }
 
+        // Remove pipe from array if it gets out of screen
         if (Pipe.getPipes().length != 0) {
             if (Pipe.getPipes()[0].getXPos() + Pipe.getPipeWidth() <= 0) {
                 Pipe.removePipeFromArray();
@@ -123,6 +126,8 @@ public class GameLogic {
     }
 
     public static void startGame(BorderPane bp) throws IOException {
+
+        // Set values to allow for an easy start
         dead = false;
         score = 0;
         yVelocity = -350;
@@ -136,7 +141,7 @@ public class GameLogic {
         bp.setTop(SceneSelector.getVBoxScores());
         at.start();
 
-        // Make a timer that creates a pipe every 2.5 seconds
+        // Make a timer that creates a pipe every few seconds depending on the difficulty level
         pipeSpawner = new Timeline(
                 new KeyFrame(Duration.seconds(pipeCreationDelay), e -> new Pipe())
         );
@@ -145,6 +150,8 @@ public class GameLogic {
     }
 
     public static void restartGame() throws IOException {
+
+        // Set values to allow for an easy restart
         dead = false;
         score = 0;
         yVelocity = -350;
@@ -164,6 +171,8 @@ public class GameLogic {
     }
 
     public static void gameOver() throws IOException {
+
+        // Pause the game and save the highscore if higher than before
         dead = true;
         showPauseScreen();
         SceneSelector.getGameOverText().setOpacity(1);
@@ -174,12 +183,16 @@ public class GameLogic {
     }
 
     public static void showPauseScreen() {
+
+        // Add the Retry and Quit buttons as well as the pause text to the screen
         GameLogic.getAnimationTimer().stop();
         GameLogic.getPipeSpawner().pause();
         SceneSelector.getPauseVBox().getChildren().addAll(SceneSelector.getRetryQuitHBox(), SceneSelector.getPauseText());
     }
 
     public static void hidePauseScreen() {
+
+        // Remove the Retry and Quit buttons as well as the pause text from the screen and set update variables to 0
         last_update = 0;
         accumulator = 0;
         SceneSelector.getPauseVBox().getChildren().removeAll(SceneSelector.getRetryQuitHBox(), SceneSelector.getPauseText());
@@ -188,6 +201,8 @@ public class GameLogic {
     }
 
     public static void setDifficulty(String difficulty) {
+
+        // Tweak pipe values depending on selected difficulty
         switch (difficulty) {
             case "easy":
                 Pipe.setPipeGap(220);
@@ -218,6 +233,7 @@ public class GameLogic {
 
     public static File getHighscoreFile() {
 
+        // Get the correct highscore file to write to depending on the difficulty
         switch (difficulty) {
             case "easy":
                 highscoreFile = new File("highscores/highscore_easy.txt");
@@ -235,6 +251,7 @@ public class GameLogic {
 
     public static void saveHighscore() throws IOException {
 
+        // Save the highscore to the text file
         FileOutputStream fos = new FileOutputStream(getHighscoreFile());
 
         fos.write(String.valueOf(getScore()).getBytes());
@@ -243,6 +260,7 @@ public class GameLogic {
 
     public static int getHighscoreValue() throws IOException {
 
+        // Get the highscore from the text file
         FileOutputStream fos;
         getHighscoreFile().getParentFile().mkdirs();
         Scanner scan;
@@ -262,6 +280,8 @@ public class GameLogic {
             }
         }
     }
+
+    // <--- Getter Methods --->
 
     public static void setYVelocity(double yVelocity) {
         GameLogic.yVelocity = yVelocity;

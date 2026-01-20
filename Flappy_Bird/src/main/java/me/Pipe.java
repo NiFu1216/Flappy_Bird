@@ -14,12 +14,14 @@ public class Pipe {
     private static int lowestGap;
     private static Pipe[] pipes = new Pipe[0];
 
+    // On initialization of a pipe generate a random gap height and add it to the pipe array
     Pipe() {
         xPos = SceneSelector.getSceneWidth();
         height = rand.nextInt(highestGap, lowestGap);
         addPipeToArray(pipes, this);
     }
 
+    // Clone the old pipe array, add the new one to the end and make the "pipes" variable point to the new array
     public void addPipeToArray(Pipe[] pipes, Pipe pipe) {
         Pipe[] newPipeArray = new Pipe[pipes.length + 1];
         for (int i = 0; i < pipes.length; i++) {
@@ -29,6 +31,7 @@ public class Pipe {
         Pipe.pipes = newPipeArray;
     }
 
+    // Clone the old array but remove the first pipe from it
     public static void removePipeFromArray() {
         Pipe[] newPipeArray = new Pipe[pipes.length - 1];
         for (int i = 0; i < pipes.length - 1; i++) {
@@ -36,6 +39,8 @@ public class Pipe {
         }
         Pipe.pipes = newPipeArray;
     }
+
+    // <--- Getter and Setter Methods --->
 
     public static void setPipeGap(int gap) {
         PIPE_GAP = gap;

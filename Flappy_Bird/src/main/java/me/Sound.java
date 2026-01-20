@@ -8,6 +8,7 @@ import java.net.URL;
 
 public class Sound {
 
+    // Make an array of 4 URLs, each containing the path of one sound
     URL[] sounds = new URL[4];
     Clip clip;
 
@@ -18,6 +19,7 @@ public class Sound {
         sounds[3] = getClass().getResource("/sounds/background_music.wav");
     }
 
+    // Select which sound should be played by assigning the clip variable to it
     public void setFile(int i) {
 
         try {
@@ -31,14 +33,17 @@ public class Sound {
         }
     }
 
+    // Play that clip
     public void play() {
         clip.start();
     }
 
+    // Stop playing the clip
     public void stop() {
         clip.stop();
     }
 
+    // Play the clip indefinitely
     public void loop() {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
